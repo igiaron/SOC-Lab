@@ -1,0 +1,146 @@
+<dashboard version="1.1" theme="dark">
+  <label>SOC Overview</label>
+  <description>Security posture across endpoint (winlogs) and network (zeek) telemetry</description>
+
+  <fieldset submitButton="false">
+    <input type="time" token="tp">
+      <label>Time Range</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+
+  <row>
+    <panel>
+      <title>Total Events</title>
+      <single>
+        <search>
+          <query>(index=winlogs OR index=zeek) | stats count</query>
+          <earliest>$tp.earliest$</earliest>
+          <latest>$tp.latest$</latest>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="numberPrecision">0</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Failed Logons (4625)</title>
+      <single>
+        <search>
+          <query>index=winlogs EventCode=4625 | stats count</query>
+          <earliest>$tp.earliest$</earliest>
+          <latest>$tp.latest$</latest>
+        </search>
+        <option name="rangeColors">["0x53a051","0xf8be34","0xdc4e41"]</option>
+        <option name="rangeValues">[10,50]</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Kerberoast Signal (4769 RC4)</title>
+      <single>
+        <search>
+          <query>index=winlogs EventCode=4769 Ticket_Encryption_Type=0x17 Service_Name!="*$" Service_Name!="krbtgt" | stats count</query>
+          <earliest>$tp.earliest$</earliest>
+          <latest>$tp.latest$</latest>
+        </search>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Event Logs Cleared (1102)</title>
+      <single>
+        <search>
+          <query>index=winlogs EventCode=1102 | stats count</query>
+          <earliest>$tp.earliest$</earliest>
+          <latest>$tp.latest$</latest>
+        </search>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+
+  <row>
+    <panel>
+      <title>Authentication Failures Over Time</title>
+      <chart>
+        <search>
+          <query>index=winlogs EventCode=4625 | timechart span=1h count as failures</query>
+          <earliest>$tp.earliest$</earliest>
+          <latest>$tp.latest$</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.legend.placement">none</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Kerberos Requests by Encryption Type</title>
+      <chart>
+        <search>
+          <query>index=winlogs EventCode=4769 | stats count by Ticket_Encryption_Type | sort -count</query>
+          <earliest>$tp.earliest$</earliest>
+          <latest>$tp.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+      </chart>
+    </panel>
+  </row>
+
+  <row>
+    <panel>
+      <title>Top Process Executions (parent to child)</title>
+      <table>
+        <search>
+          <query>index=winlogs EventCode=1 | stats count by ParentImage, Image | sort -count | head 10</query>
+          <earliest>$tp.earliest$</earliest>
+          <latest>$tp.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <title>Events by Host</title>
+      <chart>
+        <search>
+          <query>index=winlogs | stats count by host | sort -count</query>
+          <earliest>$tp.earliest$</earliest>
+          <latest>$tp.latest$</latest>
+        </search>
+        <option name="charting.chart">bar</option>
+        <option name="charting.legend.placement">none</option>
+      </chart>
+    </panel>
+  </row>
+
+  <row>
+    <panel>
+      <title>DNS - Unique Subdomains per Domain (tunneling)</title>
+      <table>
+        <search>
+          <query>index=zeek source=*dns* | rex field=query "\.(?&lt;parent&gt;[^.]+\.[^.]+)$" | search parent!="in-addr.arpa" parent!="corp.lab" | stats dc(query) as unique_subdomains by parent | sort -unique_subdomains | head 10</query>
+          <earliest>$tp.earliest$</earliest>
+          <latest>$tp.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+    <panel>
+      <title>Top Network Connections</title>
+      <table>
+        <search>
+          <query>index=zeek source=*conn* | stats count by id.orig_h, id.resp_h, id.resp_p | sort -count | head 10</query>
+          <earliest>$tp.earliest$</earliest>
+          <latest>$tp.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+
+</dashboard>
