@@ -211,9 +211,3 @@ from logs.
   trace is a realistic and favorable outcome, not a failure.
 - **The value of centralized logging** — the attacker cleared the DC's logs and it changed
   nothing, because the evidence was already off the box.
-
-## Notes / to expand later
-- Add Splunk screenshots for each stage (the real events, not just queries).
-- Turn each stage's detection into a link to its file in `detections/`.
-- Consider a single annotated timeline graphic of the six stages.
-- Add the exact timestamps from the run as a reference table.
