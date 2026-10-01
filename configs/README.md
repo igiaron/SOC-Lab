@@ -5,6 +5,6 @@
 - `inputs.conf` — Universal Forwarder input config for DC01 and WS01. Ships Security, System,
   Sysmon, and PowerShell channels to the `winlogs` index on the Splunk indexer (TCP 9997).
 
-GPO settings (not exportable as a file here) are documented in `../docs/compass.md` §6:
+GPO settings:
 command-line process auditing, PowerShell script block logging, Kerberos ticket auditing,
 and scheduled-task (Other Object Access) auditing.
