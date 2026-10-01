@@ -3,6 +3,8 @@
 A home SOC analyst lab built to practice the full detection lifecycle: build the telemetry
 pipeline, run real attacks, write detections, and reconstruct intrusions from logs.
 
+![Network topology](docs/lab-topology.png)
+
 Everything here was built from scratch on VMware Workstation, attacked, detected, and
 documented — including the mistakes and the gaps found along the way.
 
