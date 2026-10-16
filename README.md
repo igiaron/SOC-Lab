@@ -87,7 +87,7 @@ how the rule was tuned to remove them. Live-firing screenshots are included in e
   the Zeek logs, with a **SOC Overview dashboard** correlating both
   ([`configs/soc-overview-dashboard.xml`](configs/soc-overview-dashboard.xml)).
 
-Config files: [`configs/`](configs/) · Full build reference: [`docs/compass.md`](docs/compass.md)
+Config files: [`configs/`](configs/)
 
 ---
 
