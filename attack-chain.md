@@ -103,8 +103,7 @@ This is the pivot that turns a workstation compromise into a domain compromise. 
 Kerberos-based network logons. The source was recovered by pivoting to **Event 4769**: the
 service ticket request for `DC01$` was stamped with the origin IP, `10.10.30.102` = WS01.
 
-*A single event was incomplete; correlating a second event filled the gap. This is the
-central skill of the whole exercise.*
+*A single event was incomplete; correlating a second event filled the gap.*
 
 ### Stage 5 — Persistence (T1053.005)
 On DC01 (via the same remote session), created a scheduled task disguised as "WindowsUpdate"
