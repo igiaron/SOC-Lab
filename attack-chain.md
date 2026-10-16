@@ -15,8 +15,7 @@ roles and reconstructed the entire intrusion **from the evidence alone**, starti
 alert and pivoting host-to-host back to the initial foothold.
 
 The point of this exercise is not that individual attacks were detected — it's that a scattered
-set of events across two hosts can be assembled into a coherent incident story. That
-reconstruction is the core of SOC analyst work.
+set of events across two hosts can be assembled into a coherent incident story.
 
 **Environment:** `corp.lab` domain · WS01 (Windows 11 workstation) · DC01 (domain controller) ·
 attacker on Kali · telemetry via Sysmon + Windows audit logs → Universal Forwarder → Splunk.
