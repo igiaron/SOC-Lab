@@ -65,11 +65,6 @@ the sensor caught the initial AS request but dropped the TGS packet that carries
 **endpoint** detection (4769) caught it every time, because that event is generated on the DC
 itself, with nothing to drop.
 
-This is the real-world takeaway, and it cuts both ways with the attack-chain reconstruction
-(where a 4624 was missing its source IP and the 4769 filled the gap): **no single sensor is
-complete.** Network sensors see traffic, not truth. Endpoint telemetry is the reliable backbone;
-network telemetry is the complement that adds context the endpoint can't — and mature detection
-correlates both rather than trusting either alone.
 
 ## Firewall segmentation
 
